@@ -13,25 +13,62 @@
   </head>
 
   <body>
+    
     <div class="container-fluid text-center" style="background-color: darkgrey; padding-bottom: 5px;">
         <h1>Weather Dashboard</h1>
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-4 float-left">
-                <nav class="navbar bg-shade rounded">
-                    <h4>Search for a City:</h4>
-                        <form class="form-inline">
-                            <input id="city-input" class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
-                            <button id="selectCity" class="btn btn-primary" type="submit">Search</button>
-                        </form>
-                </nav>
-            </div>
-        </div>
-    </div>
+      <div class="row">
+        <div class="col-4 float-left">
+          <nav class="navbar bg-shade rounded">
+            
+            <h4>Search for a City:</h4>
+              <form id="cityForm" class="form-inline">
+                <input id="cityInput" class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                <button id="citySearch" class="btn btn-primary" type="submit">Search</button>
+              </form>
+              
+              <div id="searchDiv">
+                <!-- fills with search history -->
+              </div>
   
-    <!-- jQuery; Popper.js; personal JS -->
+          </nav>
+        </div>
+        <div class="col-8 float-right" style="margin-top: 20px;">
+
+          <div id="cityDiv" class="card" style="width: 70%; height: 20rem;">
+
+            <h2 class="cityName">
+              <img class="weatherIcon">
+            <!-- fills with city's name and the weather icon -->
+            </h2>
+            <div class="cityTemp">
+            <!-- fills with city's temp -->
+            </div>
+            <div class="cityHum">
+            <!-- fills with city's humidity -->
+            </div>
+            <div class="cityWind">
+            <!-- fills with city's wind -->
+            </div>
+            <div class="cityUV">
+            <!-- fills with city's UV index -->
+            </div>
+
+          </div>
+          <br>
+          <h3>Week's Forecast</h3>
+          <div id="cityForecast" class="row">
+          <!-- fills with city's 5-day forecast -->
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- jQuery; personal JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
   </body>

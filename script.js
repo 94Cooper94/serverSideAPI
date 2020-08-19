@@ -1,36 +1,41 @@
 moment().format('L');
 
+// ok take a step back and collect your focus
+// here are the steps: psuedo code style
+// 1. take user input from cityInput, store to local
+// 2. retrieve from local and append to a div/col below "Search for a City:"
+// 3. take snippets from Bujumbura and repurpose the code to retrieve data from the weatherAPI and present it similarly to the 06-server-side...png
+// 4. simultaneously repurpose the BandsInTownApp activity from class to help retrieve data and .html() it to the dash
+// 5. do something with the 5-day forecast
 
-var APIKey = "166a433c57516f51dfab1f7edaed8413";
-var queryURL = "https://api.openweathermap.org/data/2.5/weather?" + "q=Bujumbura,Burundi&appid=" + APIKey;
 
-$.ajax({
+function cityWeather(city) {
+
+  // needs an accurate APIkey and the queryURL var needs to pull user input, not simply assume the city is Bujumbura
+  var APIKey = "166a433c57516f51dfab1f7edaed8413";
+  var queryURL = "https://api.openweathermap.org/data/2.5/weather?" + city + APIKey;
+  
+  $.ajax({
     url: queryURL,
     method: "GET"
-  })
-    // We store all of the retrieved data inside of an object called "response"
-    .then(function(response) {
+  }).then(function(response) {
 
-      // Log the queryURL
-      console.log(queryURL);
+    // create variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
+    // .empty() the div to the right of the search div
+    // populate the div with the above variables via .append()
 
-      // Log the resulting object
-      console.log(response);
+      });
 
-      // Transfer content to HTML
-      $(".city").html("<h1>" + response.name + " Weather Details</h1>");
-      $(".wind").text("Wind Speed: " + response.wind.speed);
-      $(".humidity").text("Humidity: " + response.main.humidity);
-      
-      // Convert the temp to fahrenheit
-      var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
-      // add temp content to html
-      $(".temp").text("Temperature (K) " + response.main.temp);
-      $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
 
-      // Log the data in the console as well
-      console.log("Wind Speed: " + response.wind.speed);
-      console.log("Humidity: " + response.main.humidity);
-      console.log("Temperature (F): " + tempF);
-    });
+
+// event handler for user clicking the citySearch button
+$("#citySearch").on("click", function(event) {
+  event.preventDefault();
+  
+  // stores the city string as inputCity
+  var inputCity = $("#cityInput").val().trim();
+
+  // Running the cityWeather function passing the city as the value
+  cityWeather(inputCity);
+});
