@@ -27,8 +27,6 @@ function cityWeather(city) {
       });
 
 
-
-
 // event handler for user clicking the citySearch button
 $("#citySearch").on("click", function(event) {
   event.preventDefault();
@@ -38,4 +36,4 @@ $("#citySearch").on("click", function(event) {
 
   // Running the cityWeather function passing the city as the value
   cityWeather(inputCity);
-});
+})};
