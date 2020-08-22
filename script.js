@@ -15,27 +15,36 @@ $(document).ready(function() {
   });
 
 
+  $("#searchDiv").on("click", "li", function() {
+    cityWeather($(this).text());
+  });
 
-  function cityWeather(response) {
 
+  function makeRow(text) {
+    var li = $("<li>").addClass("list-group-item list-group-item-action").text(text);
+    $("#searchDiv").append(li);
+  }
+
+
+  function cityWeather(city) {
     // API AND AJAX
-    var APIKey = "166a433c57516f51dfab1f7edaed8413";
+    var APIKey = "ade2bb7e46d866c6271ae23428c893bc";
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?" + city + APIKey;
     $.ajax({
       type: "GET",
       url: queryURL,
       dataType: "json",
     }).then(function(city) {
-        if (history.indexOf(city) === -1) {
-          history.push(city);
-          window.localStorage.setItem("history", JSON.stringify(history));
+        if (searchDiv.indexOf(city) === -1) {
+          searchDiv.push(city);
+          window.localStorage.setItem("searchDiv", JSON.stringify(searchDiv));
 
           makeRow(city);
         }
       
-        $("#today").empty();
+        $("#cityForm").empty();
 
-        // variables for the weather aspects
+        // variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
         var card = $("<div>").addClass("card");
         var cardBody = $("<div>").addClass("card-body");
         var cityName = $("h2").addClass("card-title").text(data.name + " (" + new DataCue().toLocalDateString() + ")");
@@ -44,26 +53,18 @@ $(document).ready(function() {
         var cityHumid = $("<p>").addClass("card-text").text("Humidity is " + data.main.humidity + "%");
         var weatherIcon = $("<img>").attr("src", "http://openweatherapp.org/img/w/" + data.weather[0].icon + ".png");
         
-        // calling these variables and appending to our card
+        // calling the above variables to appending to our card
         cityName.append(weatherIcon);
         cardBody.append(cityName, cityTemp, cityWind, cityHumid);
         card.append(cardBody);
-        $("#today").append(card);
+        $("#cityForm").append(card);
+
+        cityForecast(city);
+        cityUVIndex(data.coord.lat, data.coord.lon);
+      
       });
-      // create variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
+      
       // .empty() the div to the right of the search div
       // populate the div with the above variables via .append()
 
-
-  // event handler for user clicking the citySearch button
-  $("#citySearch").on("click", function(event) {
-    event.preventDefault();
-    
-    // stores the city string as inputCity
-    var inputCity = $("#cityInput").val().trim();
-
-    // Running the cityWeather function passing the city as the value
-    cityWeather(inputCity);
-  })};
-
-});
+    });
