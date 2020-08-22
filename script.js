@@ -24,7 +24,20 @@ function cityWeather(city) {
         window.localStorage.setItem("history", JSON.stringify(history));
 
         makeRow(city);
-      }});
+      }
+    
+      $("#today").empty();
+
+      // variables for the weather aspects
+      var cityName = $("h2").addClass("card-title").text(data.name + " (" + new DataCue().toLocalDateString() + ")");
+      var cityTemp = $("<p>").addClass("card-text").text("Temperature is " + data.main.temp + "F");
+      var cityWind = $("<p>").addClass("card-text").text("Wind speed is " + data.wind.speed + "mph");
+      var cityHumid = $("<p>").addClass("card-text").text("Humidity is " + data.main.humidity + "%");
+      
+      // calling these variables and appending to our card
+      cardBody.append(cityName, cityTemp, cityWind, cityHumid);
+      card.append(cardBody);
+    });
     // create variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
     // .empty() the div to the right of the search div
     // populate the div with the above variables via .append()
