@@ -19,12 +19,17 @@ function cityWeather(city) {
     url: queryURL,
     method: "GET"
   }).then(function(response) {
+      if (history.indexOf(city) === -1) {
+        history.push(city);
+        window.localStorage.setItem("history", JSON.stringify(history));
 
+        makeRow(city);
+      }});
     // create variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
     // .empty() the div to the right of the search div
     // populate the div with the above variables via .append()
 
-      });
+      
 
 
 // event handler for user clicking the citySearch button
