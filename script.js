@@ -7,9 +7,10 @@ $(document).ready(function() {
     console.log(cityWeather(cityInput));
   });
 
-  // specifically to append items to the search history div
+
   // function cachedHistory() {
   // }
+
 
   function cityWeather(city) {
     // API AND AJAX
@@ -19,7 +20,9 @@ $(document).ready(function() {
       url: queryURL,
       dataType: "json",
       success: function(data) {
+
         $("#cityForm").empty();
+
         // variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
         var cityName = $(".cityName").push("#cityDiv");
         var cityTemp = $(".cityTemp").push("#cityDiv").text("Temperature is " + data.main.temp + "F");
@@ -31,33 +34,44 @@ $(document).ready(function() {
         cardBody.append(cityName, cityTemp, cityWind, cityHumid);
         card.append(cardBody);
         $("#cityForm").append(card);
+
+        cityForecast();
+        cityUVIndex();
+      }
+    });
+  }
+
+
+  function cityForecast(city) {
+    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + APIKey;
+    $.ajax({
+      type: "GET",
+      url: queryURL,
+      dataType: "json",
+      success: function(data) {}
+    });
+  }
+
+
+  function cityUVIndex(lat, lon) {
+    $.ajax({
+      type: "GET",
+      url: "https://api.openweathermap.org/data/2.5/uvi?appid=ade2bb7e46d866c6271ae23428c893bc&lat=" + lat + "&lon=" + lon,
+      dataType: "json",
+      success: function(data) {
+        if (data.value <= 3) {
+          btn.addClass("btn-success");
+        } 
+        else if (data.value <= 6) {
+          btn.addClass("btn-warning");
+        }
+        else if (data.value <= 11) {
+          btn.addClass("btn-danger");
+        }
+        else {
+          btn.addClass("btn-info");
+        }
       }
     });
   }
 });
-  // function cityForecast(city) {
-  //   var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + APIKey;
-  //   $.ajax({
-  //     type: "GET",
-  //     url: queryURL,
-  //     dataType: "json",
-  //     success: function(data) {
-
-  // function cityUVIndex(lat, lon) {
-  //   $.ajax({
-  //     type: "GET",
-  //     url: "https://api.openweathermap.org/data/2.5/uvi?appid=ade2bb7e46d866c6271ae23428c893bc&lat=" + lat + "&lon=" + lon,
-  //     dataType: "json",
-  //     success: function(data) {
-  //       if (data.value <= 3) {
-  //         btn.addClass("btn-success");
-  //       } 
-  //       else if (data.value <= 6) {
-  //         btn.addClass("btn-warning");
-  //       }
-  //       else if (data.value <= 11) {
-  //         btn.addClass("btn-danger");
-  //       }
-  //       else {
-  //         btn.addClass("btn-info");
-  //       }
