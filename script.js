@@ -1,10 +1,3 @@
-// ok take a step back and collect your focus
-// here are the steps: psuedo code style
-// 1. take user input from cityInput, store to local
-// 2. retrieve from local and append to a div/col below "Search for a City:"
-// 3. take snippets from Bujumbura and repurpose the code to retrieve data from the weatherAPI and present it similarly to the 06-server-side...png
-// 4. simultaneously repurpose the BandsInTownApp activity from class to help retrieve data and .html() it to the dash
-// 5. do something with the 5-day forecast
 $(document).ready(function() {
   $("#citySearch").on("click", function() {
     var cityInput = $("#cityInput").val();
@@ -28,16 +21,16 @@ $(document).ready(function() {
 
   function cityWeather(city) {
     // API AND AJAX
-    var APIKey = "ade2bb7e46d866c6271ae23428c893bc";
+    var APIKey = "&appid=ade2bb7e46d866c6271ae23428c893bc";
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?" + city + APIKey;
     $.ajax({
       type: "GET",
       url: queryURL,
       dataType: "json",
-    }).then(function(city) {
-        if (searchDiv.indexOf(city) === -1) {
-          searchDiv.push(city);
-          window.localStorage.setItem("searchDiv", JSON.stringify(searchDiv));
+      success: function(data) {
+        if (searchHistory.indexOf(city) === -1) {
+          searchHistory.push(city);
+          window.localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 
           makeRow(city);
         }
@@ -51,7 +44,7 @@ $(document).ready(function() {
         var cityTemp = $("<p>").addClass("card-text").text("Temperature is " + data.main.temp + "F");
         var cityWind = $("<p>").addClass("card-text").text("Wind speed is " + data.wind.speed + "mph");
         var cityHumid = $("<p>").addClass("card-text").text("Humidity is " + data.main.humidity + "%");
-        var weatherIcon = $("<img>").attr("src", "http://openweatherapp.org/img/w/" + data.weather[0].icon + ".png");
+        var weatherIcon = $("<img>").attr("src", "https://openweatherapp.org/img/w/" + data.weather[0].icon + ".png");
         
         // calling the above variables to appending to our card
         cityName.append(weatherIcon);
@@ -61,10 +54,71 @@ $(document).ready(function() {
 
         cityForecast(city);
         cityUVIndex(data.coord.lat, data.coord.lon);
-      
-      });
-      
-      // .empty() the div to the right of the search div
-      // populate the div with the above variables via .append()
-
+      }
     });
+  }
+
+  function cityForecast(city) {
+    // idk if i need a new API key to generate the 5-day forecast
+    var APIKey = "&appid=ade2bb7e46d866c6271ae23428c893bc";
+    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + APIKey;
+    $.ajax({
+      type: "GET",
+      url: queryURL,
+      dataType: "json",
+      success: function(data) {
+        $("#cityForecast").html("<h4 class=\"mt-3\">Week's Forecast:</h4>").append("<div class=\"row\">");
+        for (var i = 0; i < data.list.length; i++) {
+          if (data.list[i].dt_txt.indexOf("15:00:00") !== -1) {
+            var col = $("<div>").addClass("col-2");
+            var card = $("<div>").addClass("card bg-primary text-white");
+            var body = $("<div>").addClass("card-body p-2");
+
+            var title = $("<h3>").addClass("card-title").text(new Date(data.list[i].dt_txt).toLocalDateString());
+
+            var img = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
+
+            var p1 = $("<p>").addClass("card-text").text("Temperature: " + data.list[i].main.temp_max  + " F");
+            var p2 = $("<p>").addClass("card-text").text("Humidity: " + data.list[i].main.humidity + "%");
+
+            col.append(card.append(body.append(title, img, p1, p2)));
+            $("#cityForecast .row").append(col);
+          }
+        }
+      }
+    });
+  }
+
+  function cityUVIndex(lat, lon) {
+    $.ajax({
+      type: "GET",
+      url: "https://api.openweathermap.org/data/2.5/uvi?appid=ade2bb7e46d866c6271ae23428c893bc&lat=" + lat + "&lon=" + lon,
+      dataType: "json",
+      success: function(data) {
+        var uv = $("<p>").text("UV Index: ");
+        var btn = $("<span>").addClass("btn btn-sm").text(data.value);
+        
+        if (data.value < 3) {
+          btn.addClass("btn-success");
+        } 
+        else if (data.value < 7) {
+          btn.addClass("btn-warning");
+        }
+        else {
+          btn.addClass("btn-danger");
+        }
+
+        $("today .card-body").append(uv.append(btn));
+      }
+    });
+  }
+
+  var history = JSON.parse(window.localStorage.getItem("history")) || [];
+
+  if (history.length > 0) {
+    cityWeather(history[history.length-1]);
+  }
+  for (var i = 0; i < history.length; i++) {
+    makeRow(history[i]);
+  }
+});
