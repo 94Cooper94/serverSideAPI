@@ -1,4 +1,4 @@
-# serverSideAPI
+# weatherDashboard
 
 https://94cooper94.github.io/weatherDashboard/
 
