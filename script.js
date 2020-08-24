@@ -15,6 +15,7 @@ $(document).ready(function() {
 
     // this is the API doc that would be able to pull the UVI, but i cannot get this link to work ):
     // var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=hourly,minutely&appid=340e329562e29bd2ff2b681d0bf2d492" + city + ",us" + APIKey;
+    // the below queryURL works, without UVI though
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + ",us" + APIKey;
     $.ajax({
       type: "GET",
@@ -23,7 +24,6 @@ $(document).ready(function() {
       success: function(data) {
         console.log(data);
         $("#cityInput").empty();
-
 
         // variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
         var cityName = $(".cityName").html("#cityDiv").text(city);
@@ -61,6 +61,11 @@ $(document).ready(function() {
       url: "http://api.openweathermap.org/data/2.5/uvi" + APIKey + "&lat=" + lat + "&lon=" + lon,
       dataType: "json",
       success: function(data) {
+        var cityUV = $(".cityUV").text("UV Index: ");
+        var btn = $("<span>").addClass("btn btn-sm").text(data.value);
+        var lat = data.coord.lat;
+        var lon = data.coord.lon;
+
         if (data.value <= 3) {
           btn.addClass("btn-success");
         } 
@@ -73,6 +78,8 @@ $(document).ready(function() {
         else {
           btn.addClass("btn-info");
         }
+
+        $("#cityDiv").html(cityUV.append(btn));
       }
     });
   }
