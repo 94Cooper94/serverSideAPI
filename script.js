@@ -1,13 +1,15 @@
 var APIKey = "ade2bb7e46d866c6271ae23428c893bc";
 
 $(document).ready(function() {
-  console.log(ready);
+
   $("#citySearch").on("click", function() {
+    event.preventDefault();
+
     var cityInput = $("#cityInput").val();
     console.log("click");
     // stringify?
     $("#cityInput").val("");
-    // console.log(cityWeather(cityInput));
+    console.log(cityWeather(cityInput));
   });
 
 
