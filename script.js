@@ -13,6 +13,8 @@ $(document).ready(function() {
 
   function cityWeather(city) {
 
+    // this is the API doc that would be able to pull the UVI, but i cannot get this link to work ):
+    // var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=hourly,minutely&appid=340e329562e29bd2ff2b681d0bf2d492" + city + ",us" + APIKey;
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + ",us" + APIKey;
     $.ajax({
       type: "GET",
@@ -25,27 +27,19 @@ $(document).ready(function() {
 
         // variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
         var cityName = $(".cityName").html("#cityDiv").text(city);
-        var cityTemp = $(".cityTemp").html("#cityDiv").text("Temperature is " + data.main.temp + " F");
-          // $(".cityTemp").text("Temperature (K) " + data.main.temp);
-          // $(".tempF").text("Temperature (F) " + tempF.toFixed(0));
-        var cityWind = $(".cityWind").html("#cityDiv").text("Wind speed is " + data.wind.speed + "mph");
-        var cityHumid = $(".cityHum").html("#cityDiv").text("Humidity is " + data.main.humidity + "%");
-        var weatherIcon = $(".weatherIcon").attr("src", "http://openweatherapp.org/img/w/" + data.weather[0].icon + ".png");        
+        var cityTemp = $(".cityTemp").html("#cityDiv").text("Temperature: " + ((data.main.temp -273.15) * 1.80 + 32).toFixed(2) + " F");
+        var cityWind = $(".cityWind").html("#cityDiv").text("Wind speed: " + data.wind.speed + "mph");
+        var cityHumid = $(".cityHum").html("#cityDiv").text("Humidity: " + data.main.humidity + "%");
+        // var cityUV = $(".cityUV").html("#cityDiv").text("UV Index: " + data.)
+        var weatherIcon = $(".weatherIcon").attr("src", "http://openweatherapp.org/img/w/" + data.weather[0].icon + ".png");      
         
-        var cityDiv = $("#cityDiv").html("#cityDiv");
-        // calling the above variables to appending to our card
-        cityName.append(weatherIcon);
-        cityDiv.append(cityName, cityTemp, cityWind, cityHumid);
-        card.append(cardBody);
-        $("#cityDiv").append(card);
-
         // cityForecast();
-        // cityUVIndex();
+        cityUVIndex();
       }
     });
   }
 
-  
+
   // function cachedHistory() {
   // }
 
@@ -61,25 +55,25 @@ $(document).ready(function() {
   // }
 
 
-  // function cityUVIndex(lat, lon) {
-  //   $.ajax({
-  //     type: "GET",
-  //     url: "http://api.openweathermap.org/data/2.5/uvi" + APIKey + "&lat=" + lat + "&lon=" + lon,
-  //     dataType: "json",
-  //     success: function(data) {
-  //       if (data.value <= 3) {
-  //         btn.addClass("btn-success");
-  //       } 
-  //       else if (data.value <= 6) {
-  //         btn.addClass("btn-warning");
-  //       }
-  //       else if (data.value <= 11) {
-  //         btn.addClass("btn-danger");
-  //       }
-  //       else {
-  //         btn.addClass("btn-info");
-  //       }
-      // }
-    // });
-  // }
+  function cityUVIndex(lat, lon) {
+    $.ajax({
+      type: "GET",
+      url: "http://api.openweathermap.org/data/2.5/uvi" + APIKey + "&lat=" + lat + "&lon=" + lon,
+      dataType: "json",
+      success: function(data) {
+        if (data.value <= 3) {
+          btn.addClass("btn-success");
+        } 
+        else if (data.value <= 6) {
+          btn.addClass("btn-warning");
+        }
+        else if (data.value <= 11) {
+          btn.addClass("btn-danger");
+        }
+        else {
+          btn.addClass("btn-info");
+        }
+      }
+    });
+  }
 });
