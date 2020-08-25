@@ -1,86 +1,84 @@
 var APIKey = "&appid=ade2bb7e46d866c6271ae23428c893bc";
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-  $("#citySearch").on("click", function() {
+  $("#citySearch").on("click", function () {
     event.preventDefault();
 
     var cityInput = $("#cityInput").val().trim();
-    cityWeather(cityInput);
     $("#cityInput").val("");
+
+
+    function cityWeather(city) {
+
+      var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + ",us" + APIKey;
+      $.ajax({
+        type: "GET",
+        url: queryURL,
+        dataType: "json",
+        success: function (data) {
+          console.log(data);
+          $("#cityInput").empty();
+
+          // variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
+          var cityName = $(".cityName").html("#cityDiv").text(city);
+          var cityTemp = $(".cityTemp").html("#cityDiv").text("Temperature: " + ((data.main.temp - 273.15) * 1.80 + 32).toFixed(2) + " F");
+          var cityWind = $(".cityWind").html("#cityDiv").text("Wind speed: " + data.wind.speed + "mph");
+          var cityHumid = $(".cityHum").html("#cityDiv").text("Humidity: " + data.main.humidity + "%");
+          // var cityUV = $(".cityUV").html("#cityDiv").text("UV Index: " + data.)
+          var weatherIcon = $(".weatherIcon").attr("src", "http://openweatherapp.org/img/w/" + data.weather[0].icon + ".png");
+          // console.log(data.coord.lat, data.coord.lon);
+          cityUVIndex(data.coord.lat, data.coord.lon);
+        }
+      })
+    }
+    cityWeather(cityInput);
+    // cityUVIndex(lat, lon);
+
   });
-
-
-  function cityWeather(city) {
-
-    // this is the API doc that would be able to pull the UVI, but i cannot get this link to work ):
-    // var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=hourly,minutely&appid=340e329562e29bd2ff2b681d0bf2d492" + city + ",us" + APIKey;
-    // the below queryURL works, without UVI though
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + ",us" + APIKey;
-    $.ajax({
-      type: "GET",
-      url: queryURL,
-      dataType: "json",
-      success: function(data) {
-        console.log(data);
-        $("#cityInput").empty();
-
-        // variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
-        var cityName = $(".cityName").html("#cityDiv").text(city);
-        var cityTemp = $(".cityTemp").html("#cityDiv").text("Temperature: " + ((data.main.temp -273.15) * 1.80 + 32).toFixed(2) + " F");
-        var cityWind = $(".cityWind").html("#cityDiv").text("Wind speed: " + data.wind.speed + "mph");
-        var cityHumid = $(".cityHum").html("#cityDiv").text("Humidity: " + data.main.humidity + "%");
-        // var cityUV = $(".cityUV").html("#cityDiv").text("UV Index: " + data.)
-        var weatherIcon = $(".weatherIcon").attr("src", "http://openweatherapp.org/img/w/" + data.weather[0].icon + ".png");      
-        
-        // cityForecast();
-        cityUVIndex();
-      }
-    });
-  }
-
 
   // function cachedHistory() {
   // }
 
 
-  // function cityForecast(city) {
-  //   var queryURL = "http://api.openweathermap.org/data/2.5/forecast?appid=" + city + APIKey;
-  //   $.ajax({
-  //     type: "GET",
-  //     url: queryURL,
-  //     dataType: "json",
-  //     success: function(data) {}
-  //   });
-  // }
-
-
-  function cityUVIndex(lat, lon) {
+  function cityForecast(city) {
+    var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + APIKey;
     $.ajax({
       type: "GET",
-      url: "http://api.openweathermap.org/data/2.5/uvi" + APIKey + "&lat=" + lat + "&lon=" + lon,
+      url: queryURL,
       dataType: "json",
-      success: function(data) {
-        var cityUV = $(".cityUV").text("UV Index: ");
-        var btn = $("<span>").addClass("btn btn-sm").text(data.value);
-        var lat = data.coord.lat;
-        var lon = data.coord.lon;
-
-        if (data.value <= 3) {
-          btn.addClass("btn-success");
-        } 
-        else if (data.value <= 6) {
-          btn.addClass("btn-warning");
-        }
-        else if (data.value <= 11) {
-          btn.addClass("btn-danger");
-        }
-        else {
-          btn.addClass("btn-info");
-        }
-
-        $("#cityDiv").html(cityUV.append(btn));
+      success: function (data) {
+        console.log(data);
       }
     });
   }
 });
+
+function cityUVIndex(lat, lon) {
+  $.ajax({
+    type: "GET",
+    url: `http://api.openweathermap.org/data/2.5/uvi/forecast?lat=${lat}&lon=${lon}${APIKey}`,
+    dataType: "json",
+    success: function (data) {
+      var uv = data[0].value;
+      var cityUV = $(".cityUV").text("UV Index: " + uv);
+
+      if (data.value <= 3) {
+        cityUV.addClass("btn-success");
+        $("#cityDiv").append(cityUV.append(cityUV));
+      }
+      else if (data.value <= 6) {
+        cityUV.addClass("btn-warning");
+        $("#cityDiv").append(cityUV.append(cityUV));
+      }
+      else if (data.value <= 11) {
+        cityUV.addClass("btn-danger");
+        $("#cityDiv").append(cityUV.append(cityUV));
+      }
+      else {
+        cityUV.addClass("btn-info");
+        $("#cityDiv").append(cityUV.append(cityUV));
+      }
+    }
+  });
+};
