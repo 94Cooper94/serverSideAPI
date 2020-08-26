@@ -40,6 +40,9 @@ $(document).ready(function () {
       dataType: "json",
       success: function (data) {
         console.log(data);
+        $("#cityInput").change(function() {
+          $("<p></p>").appendTo("#searchDiv");
+        });
       }
     });
   }
@@ -56,15 +59,15 @@ function cityUVIndex(lat, lon) {
       var uv = data[0].value;
       var cityUV = $(".cityUV").text("UV Index: " + uv);
 
-      if (data.value <= 3) {
+      if (uv <= 3) {
         cityUV.addClass("btn-success");
         $("#cityDiv").append(cityUV.append(cityUV));
       }
-      else if (data.value <= 6) {
+      else if (uv <= 6) {
         cityUV.addClass("btn-warning");
         $("#cityDiv").append(cityUV.append(cityUV));
       }
-      else if (data.value <= 11) {
+      else if (uv <= 11) {
         cityUV.addClass("btn-danger");
         $("#cityDiv").append(cityUV.append(cityUV));
       }
