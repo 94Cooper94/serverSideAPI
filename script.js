@@ -32,6 +32,13 @@ $(document).ready(function () {
   });
 
 
+  function cachedCities(city) {
+    $("#citySearch").change(function() {
+      $("#cityInput").appendTo("#searchDiv");
+    });
+  }
+
+
   function cityForecast(city) {
     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + APIKey;
     $.ajax({
@@ -40,13 +47,11 @@ $(document).ready(function () {
       dataType: "json",
       success: function (data) {
         console.log(data);
-        $("#cityInput").change(function() {
-          $("<p></p>").appendTo("#searchDiv");
-        });
       }
-    });
+    });  
+    console.log(city);
+    cityForecast(city);
   }
-  cityForecast(city);
 });
  
 
