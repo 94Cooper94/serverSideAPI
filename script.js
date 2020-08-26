@@ -22,7 +22,7 @@ $(document).ready(function () {
           var cityWind = $(".cityWind").html("#cityDiv").text("Wind speed: " + data.wind.speed + "mph");
           var cityHumid = $(".cityHum").html("#cityDiv").text("Humidity: " + data.main.humidity + "%");
           // var cityUV = $(".cityUV").html("#cityDiv").text("UV Index: " + data.)
-          var weatherIcon = $(".weatherIcon").attr("src", "https://openweatherapp.org/img/w/" + data.weather[0].icon + ".png");
+          var weatherIcon = $(".weatherIcon").html("#cityDiv").attr("src", "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
           // console.log(data.coord.lat, data.coord.lon);
           cityUVIndex(data.coord.lat, data.coord.lon);
         }
