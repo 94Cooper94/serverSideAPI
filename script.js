@@ -14,8 +14,8 @@ $(document).ready(function () {
     }
     $("#cityInput").val("");
 
-    cityWeather(cityInput);
-    cityForecast(cityInput);
+    cityWeather(cityInput)
+    cityForecast(cityInput)
   });
 
 
@@ -44,15 +44,15 @@ $(document).ready(function () {
   function cachedCities() {
     cityHistory = JSON.parse(localStorage.getItem("city")) || []
     for (var i = 0; i < cityHistory.length; i++) {
-      var cityList = $("<button>");
-      cityList.text(cityHistory[i]);
-      cityList.addClass("list-group-item p-3 cityBtns");
-      $("#searchDiv").prepend(cityList);
+      var cityList = $("<button>")
+      cityList.text(cityHistory[i])
+      cityList.addClass("list-group-item p-3 cityBtns")
+      $("#searchDiv").prepend(cityList)
 
     }
-    $(".cityBtns").on("click", function () {s
+    $(".cityBtns").on("click", function () {
       var city = $(this).text();
-      cityWeather(city);
+      cityWeather(city)
       cityForecast(city);
     });
   }
