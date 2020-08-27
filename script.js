@@ -4,8 +4,8 @@ $(document).ready(function () {
   $("#citySearch").on("click", function () {
     event.preventDefault();
     var cityInput = $("#cityInput").val().trim();
+    window.localStorage.setItem("city", cityInput);
     $("#cityInput").val("");
-
     function cityWeather(city) {
       var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + ",us" + APIKey;
       $.ajax({
@@ -17,14 +17,14 @@ $(document).ready(function () {
           $("#cityInput").empty();
 
           // variables to store cityName, cityTemp, cityHumid, cityWind, cityUV
-          var cityName = $(".cityName").html("#cityDiv").text(city);
-          var cityTemp = $(".cityTemp").html("#cityDiv").text("Temperature: " + ((data.main.temp - 273.15) * 1.80 + 32).toFixed(2) + " F");
-          var cityWind = $(".cityWind").html("#cityDiv").text("Wind speed: " + data.wind.speed + "mph");
-          var cityHumid = $(".cityHum").html("#cityDiv").text("Humidity: " + data.main.humidity + "%");
+          cityName = $(".cityName").html("#cityDiv").text(city);
+          cityTemp = $(".cityTemp").html("#cityDiv").text("Temperature: " + ((data.main.temp - 273.15) * 1.80 + 32).toFixed(2) + " F");
+          cityWind = $(".cityWind").html("#cityDiv").text("Wind speed: " + data.wind.speed + "mph");
+          cityHumid = $(".cityHum").html("#cityDiv").text("Humidity: " + data.main.humidity + "%");
           // var cityUV = $(".cityUV").html("#cityDiv").text("UV Index: " + data.)
-          var weatherIcon = $(".weatherIcon").html("#cityDiv").attr("src", "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
+          weatherIcon = $(".weatherIcon").html("#cityDiv").attr("src", "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
           // console.log(data.coord.lat, data.coord.lon);
-          cityUVIndex(data.coord.lat, data.coord.lon);
+          cityUVIndex(data.coord.lat, data.coord.lon);    
         }
       })
     }
@@ -32,26 +32,28 @@ $(document).ready(function () {
   });
 
 
-  function cachedCities(city) {
-    $("#citySearch").change(function() {
-      $("#cityInput").appendTo("#searchDiv");
-    });
+  function cachedCities() {
+    var cityList = $("<button>");
+    cityList.text(window.localStorage.getItem("city"));
+    cityList.addClass("list-group-item p-3 cityBtns");
+    $("#searchDiv").prepend(cityList);
   }
+  cachedCities();
 
 
-  function cityForecast(city) {
-    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + APIKey;
-    $.ajax({
-      type: "GET",
-      url: queryURL,
-      dataType: "json",
-      success: function (data) {
-        console.log(data);
-      }
-    });  
-    console.log(city);
-    cityForecast(city);
-  }
+//   function cityForecast(city) {
+//     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + APIKey;
+//     $.ajax({
+//       type: "GET",
+//       url: queryURL,
+//       dataType: "json",
+//       success: function (data) {
+//         console.log(data);
+//       }
+//     });  
+//     console.log(city);
+//     cityForecast(city);
+//   }
 });
  
 
