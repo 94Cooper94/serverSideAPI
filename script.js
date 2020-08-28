@@ -50,7 +50,7 @@ $(document).ready(function () {
       $("#searchDiv").prepend(cityList);
 
     }
-    $(".cityBtns").on("click", function () {s
+    $(".cityBtns").on("click", function () {
       var city = $(this).text();
       cityWeather(city);
       cityForecast(city);
