@@ -13,7 +13,7 @@ $(document).ready(function () {
     var cityInput = $("#cityInput").val().trim();
 
     // i will verify that cityHistory doesnt include city in it
-    if (cityHistory.indexOf(cityInput) === -1) {
+    if (cityHistory.indexOf(cityInput) === -1 && cityHistory.length < 10) {
       cityHistory.push(cityInput)
       window.localStorage.setItem("city", JSON.stringify(cityHistory));
     }
@@ -21,6 +21,8 @@ $(document).ready(function () {
 
     cityWeather(cityInput)
     cityForecast(cityInput)
+    console.log(cityHistory)
+    cachedCities()
   });
 
 
@@ -49,7 +51,7 @@ $(document).ready(function () {
 
   // pulls the stored city input value and prepends as button below search bar
   function cachedCities() {
-    cityHistory = JSON.parse(localStorage.getItem("city")) || []
+    console.log(cityHistory)
     for (var i = 0; i < cityHistory.length; i++) {
       var cityList = $("<button>")
       cityList.text(cityHistory[i])
@@ -62,7 +64,6 @@ $(document).ready(function () {
       cityForecast(city);
     });
   }
-  cachedCities();
 });
 
 
@@ -74,10 +75,9 @@ function cityForecast(city) {
     url: queryURL,
     dataType: "json",
     success: function (data) {
-      console.log(data);
+      console.log(data); //placeholding what will eventually be the 5-day forecast
     }
   });
-  console.log(city);
 }
 
 
