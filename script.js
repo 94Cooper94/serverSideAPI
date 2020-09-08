@@ -55,7 +55,7 @@ function cachedCities() {
   for (var i = 0; i < cityHistory.length; i++) {
     var cityList = $("<button>")
     cityList.text(cityHistory[i])
-    cityList.addClass("list-group-item p-3 cityBtns")
+    cityList.addClass("list-group-item p-3 cityBtns").css("background-color", "lightcoral")
     $("#searchDiv").prepend(cityList)
   }
   $(".cityBtns").on("click", function () {
@@ -87,7 +87,7 @@ function cityForecast(city) {
 
         var date = moment(data.list[i].dt_txt).format('M/D/YYYY')
         var forecastDate = $(dailyForecastCard).append(date)
-        $(dailyForecastCard).append(forecastDate).attr("src", "https://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + "@2x.png")
+        $(dailyForecastCard).append(forecastDate).append("<img src= http://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png>")
         $(dailyForecastCard).append("<br>" + "Temp: " + ((data.list[i].main.temp - 273.15) * 1.80 + 32).toFixed(2) + " F")
         $(dailyForecastCard).append("<br>" + "Humidity: " + data.list[i].main.humidity + "%")
         $("#cityForecast").append(dailyForecastCard)
