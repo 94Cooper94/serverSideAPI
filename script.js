@@ -86,8 +86,8 @@ function cityForecast(city) {
         dailyForecastCard.attr("class", "col-md")
 
         var date = moment(data.list[i].dt_txt).format('M/D/YYYY')
-        $(dailyForecastCard).append(date)
-        $(dailyForecastCard).append(data.list[i].weather.icon)
+        var forecastDate = $(dailyForecastCard).append(date)
+        $(dailyForecastCard).append(forecastDate).attr("src", "https://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + "@2x.png")
         $(dailyForecastCard).append("<br>" + "Temp: " + ((data.list[i].main.temp - 273.15) * 1.80 + 32).toFixed(2) + " F")
         $(dailyForecastCard).append("<br>" + "Humidity: " + data.list[i].main.humidity + "%")
         $("#cityForecast").append(dailyForecastCard)
