@@ -21,7 +21,6 @@ $(document).ready(function () {
 
     cityWeather(cityInput)
     cityForecast(cityInput)
-    console.log(cityInput)
     cachedCities()
   });
 });
@@ -52,6 +51,7 @@ function cityWeather(city) {
 
 // pulls the stored city input value and prepends as button below search bar
 function cachedCities() {
+  $("#searchDiv").empty()
   for (var i = 0; i < cityHistory.length; i++) {
     var cityList = $("<button>")
     cityList.text(cityHistory[i])
@@ -75,12 +75,24 @@ function cityForecast(city) {
     url: queryURL,
     dataType: "json",
     success: function (data) {
-      console.log(data); //placeholding what will eventually be the 5-day forecast
+      console.log(data);
 
       $("#cityForecast").empty();
 
-      tempForecast = $(".tempForecast").html("#cityForecast").text("Temperature: " + ((data.list[0].main.temp - 273.15) * 1.80 + 32).toFixed(2) + " F");
-      console.log(tempForecast)
+      for (var i = 0; i <= data.list.length; i++) {
+        if (i % 8 == 0) {
+
+        var dailyForecastCard = $("<div>")
+        dailyForecastCard.attr("class", "col-md")
+
+        var date = moment(data.list[i].dt_txt).format('M/D/YYYY')
+        $(dailyForecastCard).append(date)
+        $(dailyForecastCard).append(data.list[i].weather.icon)
+        $(dailyForecastCard).append("<br>" + "Temp: " + ((data.list[i].main.temp - 273.15) * 1.80 + 32).toFixed(2) + " F")
+        $(dailyForecastCard).append("<br>" + "Humidity: " + data.list[i].main.humidity + "%")
+        $("#cityForecast").append(dailyForecastCard)
+        }
+      }
     }
   });
 }

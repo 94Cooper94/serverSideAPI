@@ -1,12 +1,38 @@
+h1, h2, h3, h4 {
+    font-family: 'Dancing Script', cursive;
+}
+
+body {
+    background: url(./media/fuji.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .weatherIcon {
     /* float: left; */
     display: inline-block;
     max-height: 42px;
     max-width: 42px;
 }
+
 h2 {
     float: left;
 }
+
+#cityDiv {
+    background: transparent;
+}
+
+.cityBtns {
+    width: 100px;
+}
+
 #cityForm {
     margin-bottom: 20px;
+}
+
+.col-md {
+    background-color: lightcoral;
+    margin-right: 10px;
+    border: 2px solid black;
 }
