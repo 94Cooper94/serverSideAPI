@@ -1,17 +1,15 @@
 # weatherDashboard
 
-https://94cooper94.github.io/weatherDashboard/
+Try out the live site: https://94cooper94.github.io/weatherDashboard/
 
 Greetings, Traveler!
 
 Thank you for viewing my all-in-one weather dashboard (sample below).
 
-![Sample user-input page](media/previewInterface.PNG)
+![Sample city-button click](media/exampleOutput.PNG)
 
-Here you'll find a simple user-interface that requests a city input. Don't include the state or country, however, as this dashboard gets the final say regarding which city you're referring to. Slick bonus features include an extensive search history feature (refresh that webpage to see what I'm talking about) that generates that day's weather forecast at the click of a button(s)!
+Here you'll find a simple user-interface that requests location input and returns rivoting weather data. Try entering your city's name, zip code, or even your entire state's name, and this weatherDashboard will give you everything you're looking for-- even emojis! 
 
-![Sample city-button click](media/InterfaceCityBtnClick.PNG)
+Now functioning as of patch 1.07.33b: the 5-day weather forecast is up and running in full-effect, & the search history displays without the need to refresh your web browser.
 
-Coming soon: a more cutting edge search history that refreshes without reloading the page AND a 5-day forecast! Keep your eyes peeled.
-
-![Coming Soon](media/comingSoon.png)
+Coming soon: perpetuous updates to ensure quality aesthetic content and functionality of the weather API persists.
