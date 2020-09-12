@@ -1,6 +1,6 @@
 # weatherDashboard
 
-Try out the live site: https://94cooper94.github.io/weatherDashboard/
+## Deployed Site: https://94cooper94.github.io/weatherDashboard/
 
 Greetings, Traveler!
 
