@@ -3,13 +3,14 @@ h1, h2, h3, h4 {
 }
 
 body {
-    background: url(./media/fuji.jpg);
+    background: url(../media/fuji.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .button {
     background-color: lightcoral;
+    opacity: 100%;
 }
 
 .weatherIcon {
@@ -36,6 +37,7 @@ h2 {
 }
 
 .col-md {
+    opacity: 100%;
     background-color: lightcoral;
     margin-right: 10px;
     border: 2px solid black;
