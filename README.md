@@ -13,3 +13,10 @@ Here you'll find a simple user-interface that requests location input and return
 Now functioning as of patch 1.07.33b: the 5-day weather forecast is up and running in full-effect, & the search history displays without the need to refresh your web browser.
 
 Coming soon: perpetuous updates to ensure quality aesthetic content and functionality of the weather API persists.
+
+## Technologies Used 
+- GitHub & GitHub Pages
+- HTML & CSS
+- Materialize CSS & JavaScript Bootstrap
+- JavaScript & JQuery
+- OpenWeatherAPI
